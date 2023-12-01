@@ -41,5 +41,6 @@ sightingsByCountry<- na.omit(sightingsByCountry)
 
 tmap_mode("view")
 
-tm_shape(sightingsByCountry) +tm_fill("sightings",alpha=0.5, palette = c("black", "cyan"))
+tm_shape(sightingsByCountry) +tm_fill("sightings",alpha=0.8, palette = c("black", "cyan"), style = "hclust")
 ```
+
