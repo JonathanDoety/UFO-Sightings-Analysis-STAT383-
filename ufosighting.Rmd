@@ -27,7 +27,10 @@ Now, I'd like to plot a map of just United States UFO sightings.
 Use filter command on the ufo dataset to make a US sightings dataset.
 Then plot it.
 To make a block to code in do this: ```{r} #and to close it do this ```
-
+```{r}
+USA_sightings <- filter(ufo,country_code=="USA")
+ggplot(USA_sightings,aes(longitude, latitude)) + geom_point()
+```
 Playing around with an interactive map:
 ```{r}
 library(sf)
