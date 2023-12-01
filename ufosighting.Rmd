@@ -1,23 +1,28 @@
 ---
 title: "UFO Sightings"
 output: html_notebook
+author: Minh Ngoc Huynh, Thomas Gifford
 ---
 
-Data from: https://www.kaggle.com/datasets/NUFORC/ufo-sightings
+We plan to analyse global UFO sightings with a country's development to see if there is a relationship between the two. For this analysis, a country's "development" is quantified by its GDP per capita to account for the amount of people in the country. 
 
+Data from: 
+https://www.kaggle.com/datasets/NUFORC/ufo-sightings
+https://www.kaggle.com/datasets/gwenaelmouthuy/gdp-per-capita-between-1960-and-2021/ 
+
+We will use the following R packages:
 ```{r}
 library(tidyverse)
 library(janitor)
 library(here)
 
-ufo <- read_csv(here("C:/Users/tomas/Documents", "scrubbed.csv")) |> clean_names()
+ufo <- read_csv(here("rawdata", "ufo-sightings-transformed.csv")) |> clean_names()
+development <- read_csv(here("rawdata", "gdppercapita_us_inflation_adjusted.csv")) |> clean_names()
 
-us <- map_data("state")
 ggplot(ufo, aes(longitude, latitude)) + geom_point()
 
 ```
-
-```{r}
-ufous <- ufo |> filter(country == "us")
-ggplot(ufous, aes(longitude, latitude)) + geom_point()
-```
+First, we'll plot a global ufo sightings map.
+Now, I'd like to plot a map of just United States UFO sightings.
+Use filter command on the ufo dataset to make a US sightings dataset.
+Then plot it.
