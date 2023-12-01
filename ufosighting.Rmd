@@ -1,7 +1,7 @@
 ---
 title: "UFO Sightings"
 output: html_notebook
-author: Minh Ngoc Huynh, Thomas Gifford
+author: Minh Ngoc Huynh, Tomas Gifford
 ---
 
 We plan to analyse global UFO sightings with a country's development to see if there is a relationship between the two. For this analysis, a country's "development" is quantified by its GDP per capita to account for the amount of people in the country. 
