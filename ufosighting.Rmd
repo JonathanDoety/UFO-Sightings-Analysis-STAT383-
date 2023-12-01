@@ -27,3 +27,21 @@ Now, I'd like to plot a map of just United States UFO sightings.
 Use filter command on the ufo dataset to make a US sightings dataset.
 Then plot it.
 To make a block to code in do this: ```{r} #and to close it do this ```
+
+Playing around with an interactive map:
+```{r}
+library(sf)
+library(tmap)
+country<- st_read(here("rawdata", "countries.geojson")) |> rename(country = ADMIN)
+country<- country |> filter (country != "Antarctica")
+sightingsCount<- count(ufo, country, sort = TRUE)
+
+
+sightingsByCountry <- merge(x = country, y = sightingsCount, by = "country", all.y = TRUE) |>
+  rename(sightings = n)
+sightingsByCountry<- na.omit(sightingsByCountry)
+
+tmap_mode("view")
+tmap_options(check.and.fix = TRUE)
+tm_shape(sightingsByCountry) +tm_polygons("sightings",alpha=0.5)
+```
