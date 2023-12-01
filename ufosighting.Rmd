@@ -1,0 +1,23 @@
+---
+title: "UFO Sightings"
+output: html_notebook
+---
+
+Data from: https://www.kaggle.com/datasets/NUFORC/ufo-sightings
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(here)
+
+ufo <- read_csv(here("C:/Users/tomas/Documents", "scrubbed.csv")) |> clean_names()
+
+us <- map_data("state")
+ggplot(ufo, aes(longitude, latitude)) + geom_point()
+
+```
+
+```{r}
+ufous <- ufo |> filter(country == "us")
+ggplot(ufous, aes(longitude, latitude)) + geom_point()
+```
