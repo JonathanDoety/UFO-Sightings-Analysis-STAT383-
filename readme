@@ -1,1 +1,4 @@
-Readme test commit
+The linear model is in the R script file. Just press run and it will run
+If you download the whole repo in the zip, you can unzip it and run. If you download only the raw data and the script file, make sure they are in the same folder when you download.
+
+The notebook file has an interactive map if you want to look at it.
