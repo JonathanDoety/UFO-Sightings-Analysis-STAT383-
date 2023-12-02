@@ -2,11 +2,11 @@ library(tidyverse)
 library(janitor)
 library(here)
 
-#Clean dataset 
+#Clean ufo dataset 
 ufo <- read_csv(here("rawdata", "ufo-sightings-transformed.csv")) |> clean_names()
 ufo<-count(ufo, country, sort = TRUE) |> na.omit(ufo)
 
-#Clean this dataset
+#Clean gdp per capita dataset
 development <- read_csv(here("rawdata", "gdp-per-capita-worldbank.csv")) |> clean_names()
 development<- development |> filter(year == "2021") |> rename(country = entity)
 
