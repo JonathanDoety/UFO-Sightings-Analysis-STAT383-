@@ -19,12 +19,16 @@ ufogdp[is.na(ufogdp)] <- 0
 #Linear model on sightings by GDP
 sightingsModel<- lm(sightings ~ gdpcapita, data = ufogdp)
 summary(sightingsModel)
-ggplot(ufogdp, aes(gdpcapita, sightings)) +geom_point() +geom_smooth(method = 'lm')
+ufoplot<- ggplot(ufogdp, aes(gdpcapita, sightings)) +geom_point() +geom_smooth(method = 'lm')
 
 #This is messy, US is a huge outlier so I will remove that data point
 ufonoUS<- ufogdp |> filter(country != "United States")
 sightingsModelNoUS<- lm(sightings ~ gdpcapita, data = ufonoUS)
 summary(sightingsModelNoUS)
-ggplot(ufonoUS, aes(gdpcapita, sightings)) +geom_point() +geom_smooth(method = 'lm')
+noUSPlot<- ggplot(ufonoUS, aes(gdpcapita, sightings)) +geom_point() +geom_smooth(method = 'lm')
+
+#Look at both models at the same time:
+require(gridExtra)
+grid.arrange(noUSPlot, ufoplot)
 
 #Linear model on sightings by area and GDP (not our topic but we can look at it)
