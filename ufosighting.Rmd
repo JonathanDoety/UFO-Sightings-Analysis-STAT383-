@@ -8,7 +8,7 @@ We plan to analyse global UFO sightings with a country's development to see if t
 
 Data from: 
 https://www.kaggle.com/datasets/NUFORC/ufo-sightings
-https://www.kaggle.com/datasets/gwenaelmouthuy/gdp-per-capita-between-1960-and-2021/ 
+https://ourworldindata.org/grapher/gdp-per-capita-worldbank
 
 We will use the following R packages:
 ```{r}
