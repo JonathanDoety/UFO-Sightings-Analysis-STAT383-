@@ -22,6 +22,22 @@ development <- read_csv(here("rawdata", "gdppercapita_us_inflation_adjusted.csv"
 ggplot(ufo, aes(longitude, latitude)) + geom_point()
 
 ```
+Interactive world map of sightings:
+Click on a country to view its sightings!
+```{r}
+library(sf)
+library(tmap)
+data(World)
+country<- World |> rename(country = name)
+sightingsCount<- count(ufo, country, sort = TRUE) |> na.omit(sightingsCount)
+sightingsByCountry <- merge(x = country, y = sightingsCount, by = "country", all.y = TRUE) |>
+  rename(sightings = n)
+sightingsByCountry<- na.omit(sightingsByCountry)
+
+tmap_mode("view")
+
+tm_shape(sightingsByCountry) +tm_fill("sightings",alpha=0.8, palette = c("black", "cyan"), style = "hclust")
+```
 Filter out United States sightings and plotted it.
 ```{r}
 USA_sightings <- filter(ufo,country_code=="USA")
