@@ -2,6 +2,11 @@ library(tidyverse)
 library(janitor)
 library(here)
 
+#Cleaning load and clean data set
+area <- read_csv(here("rawdata", "land-area-km.csv")) |> clean_names()
+area <- area|>filter(year == 2020)
+area <- area |> rename(country = entity)
+
 #Clean ufo dataset 
 ufo <- read_csv(here("rawdata", "ufo-sightings-transformed.csv")) |> clean_names()
 ufo<-count(ufo, country, sort = TRUE) |> na.omit(ufo)
@@ -32,3 +37,10 @@ require(gridExtra)
 grid.arrange(noUSPlot, ufoplot)
 
 #Linear model on sightings by area and GDP (not our topic but we can look at it)
+
+areagdp <- merge(x = area, y = ufogdp, by = "country", all.y = TRUE)
+areagdp[is.na(areagdp)] <- 0
+areamodel <- lm(sightings ~ gdpcapita + area, data = areagdp)
+summary(areamodel)
+#areaplot <- ggplot(areagdp, aes(gdpcapita,sightings)) +geom_point()
+
