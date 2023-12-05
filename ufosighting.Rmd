@@ -9,6 +9,7 @@ We plan to analyse global UFO sightings with a country's development to see if t
 Data from: 
 https://www.kaggle.com/datasets/NUFORC/ufo-sightings
 https://ourworldindata.org/grapher/gdp-per-capita-worldbank
+https://ourworldindata.org/grapher/land-area-km
 
 We will use the following R packages:
 ```{r}
@@ -24,6 +25,7 @@ area <- area|>filter(year == 2020)
 ggplot(ufo, aes(longitude, latitude)) + geom_point()
 
 ```
+
 Interactive world map of sightings:
 Click on a country to view its sightings!
 ```{r}
@@ -40,19 +42,22 @@ tmap_mode("view")
 
 tm_shape(sightingsByCountry) +tm_fill("sightings",alpha=0.8, palette = c("black", "cyan"), style = "hclust")
 ```
+
 Filter out United States sightings and plotted it.
 ```{r}
 USA_sightings <- filter(ufo,country_code=="USA")
 ggplot(USA_sightings,aes(longitude, latitude)) + geom_point()
 ```
 
-Interactive world map of sightings:
+Interactive world map of sightings per area:
 Click on a country to view its sightings!
 ```{r}
 area <- area |> rename(country = entity)
 sightingsCount <- merge(x = area, y = sightingsCount, by = "country") |>
   na.omit()
-sightingsByAreaPerCountry<-sightingsCount|>mutate(pos=n / land_area_sq_km)
+sightingsByAreaPerCountry<-sightingsCount|>mutate(pos = n/land_area_sq_km)
+sightingsByAreaPerCountry<- merge(x = country, y = sightingsByAreaPerCountry, by = "country", all.y = TRUE) |>   na.omit()
+
 tmap_mode("view")
 
 tm_shape(sightingsByAreaPerCountry) +tm_fill("pos",alpha=0.8, palette = c("black", "cyan"), style = "hclust")
