@@ -19,6 +19,7 @@ library(here)
 ufo <- read_csv(here("rawdata", "ufo-sightings-transformed.csv")) |> clean_names()
 development <- read_csv(here("rawdata", "gdp-per-capita-worldbank.csv")) |> clean_names()
 area <- read_csv(here("rawdata", "land-area-km.csv")) |> clean_names()
+area <- area|>filter(year == 2020)
 
 ggplot(ufo, aes(longitude, latitude)) + geom_point()
 
@@ -48,18 +49,13 @@ ggplot(USA_sightings,aes(longitude, latitude)) + geom_point()
 Interactive world map of sightings:
 Click on a country to view its sightings!
 ```{r}
-library(sf)
-library(tmap)
-data(World)
-country<- World |> rename(country = name)
-sightingsCount<- count(ufo, country, sort = TRUE) |> na.omit(sightingsCount)
-sightingsByCountry <- merge(x = country, y = sightingsCount, by = "country", all.y = TRUE) |>
-  rename(sightings = n)
-sightingsByCountry<- na.omit(sightingsByCountry)
-
+area <- area |> rename(country = entity)
+sightingsCount <- merge(x = area, y = sightingsCount, by = "country") |>
+  na.omit()
+sightingsByAreaPerCountry<-sightingsCount|>mutate(pos=n / land_area_sq_km)
 tmap_mode("view")
 
-tm_shape(sightingsByCountry) +tm_fill("sightings",alpha=0.8, palette = c("black", "cyan"), style = "hclust")
+tm_shape(sightingsByAreaPerCountry) +tm_fill("pos",alpha=0.8, palette = c("black", "cyan"), style = "hclust")
 ```
 
 
