@@ -17,7 +17,7 @@ library(janitor)
 library(here)
 
 ufo <- read_csv(here("rawdata", "ufo-sightings-transformed.csv")) |> clean_names()
-development <- read_csv(here("rawdata", "gdppercapita_us_inflation_adjusted.csv")) |> clean_names()
+development <- read_csv(here("rawdata", "gdp-per-capita-worldbank.csv")) |> clean_names()
 
 ggplot(ufo, aes(longitude, latitude)) + geom_point()
 
