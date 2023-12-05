@@ -18,6 +18,7 @@ library(here)
 
 ufo <- read_csv(here("rawdata", "ufo-sightings-transformed.csv")) |> clean_names()
 development <- read_csv(here("rawdata", "gdp-per-capita-worldbank.csv")) |> clean_names()
+area <- read_csv(here("rawdata", "land-area-km.csv")) |> clean_names()
 
 ggplot(ufo, aes(longitude, latitude)) + geom_point()
 
