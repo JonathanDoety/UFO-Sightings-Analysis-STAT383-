@@ -40,7 +40,7 @@ grid.arrange(noUSPlot, ufoplot)
 
 areagdp <- merge(x = area, y = ufogdp, by = "country", all.y = TRUE)
 areagdp[is.na(areagdp)] <- 0
-areamodel <- lm(sightings ~ gdpcapita + area, data = areagdp)
+areamodel <- lm(sightings ~ gdpcapita + land_area_sq_km, data = areagdp)
 summary(areamodel)
 #areaplot <- ggplot(areagdp, aes(gdpcapita,sightings)) +geom_point()
 
