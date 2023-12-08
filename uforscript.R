@@ -1,3 +1,5 @@
+cat("\f") # clean console
+rm(list = ls()) # clean environment
 library(tidyverse)
 library(janitor)
 library(here)
@@ -44,3 +46,94 @@ areamodel <- lm(sightings ~ land_area_sq_km, data = areagdp)
 summary(areamodel)
 #areaplot <- ggplot(areagdp, aes(gdpcapita,sightings)) +geom_point()
 
+
+
+#Testing testing 1,2,3
+
+
+#remove values with sightings greater than 500
+ufogdp_less500=ufogdp[ufogdp$sightings<500, ]
+#Linear model on sightings by GDP
+sightingsModel_less500<- lm(sightings ~ gdpcapita, data = ufogdp_less500)
+summary(sightingsModel_less500)
+ufo_less500plot<- ggplot(ufogdp_less500, aes(gdpcapita, sightings)) +geom_point() +geom_smooth(method = 'lm')
+grid.arrange(ufo_less500plot)
+
+
+#remove values with sightings greater than 150
+ufogdp_less150=ufogdp[ufogdp$sightings<150, ]
+#Linear model on sightings by GDP
+sightingsModel_less150<- lm(sightings ~ gdpcapita, data = ufogdp_less150)
+summary(sightingsModel_less150)
+ufo_less150plot<- ggplot(ufogdp_less150, aes(gdpcapita, sightings)) +geom_point() +geom_smooth(method = 'lm')
+grid.arrange(ufo_less150plot)
+
+#Look at both models at the same time:
+require(gridExtra)
+grid.arrange(ufo_less500plot, ufo_less150plot)
+
+
+#use this
+#GGplot histogram sightings less than 500
+hist_less500 = ggplot(ufogdp_less500, aes(sightings))+geom_histogram(color="black",fill="white") +
+  geom_vline(aes(xintercept=mean(sightings)), color="blue", linetype="dashed", size=1)
+
+#use this
+#GGplot histogram sightings less than 150
+hist_less150 = ggplot(ufogdp_less150, aes(sightings))+geom_histogram(color="black",fill="white") +
+  geom_vline(aes(xintercept=mean(sightings)), color="blue", linetype="dashed", size=1)
+
+#Look at both models at the same time:
+require(gridExtra)
+grid.arrange(ufoplot, noUSPlot, ufo_less500plot, ufo_less150plot, hist_less500, hist_less150)
+
+
+
+#Not working effectively right now
+
+#Population Experimentation
+
+
+#Cleaning population dataset
+##popula = read_csv(here("rawdata","international-db-pop-2021-uscensus.csv")) 
+##names(popula) = popula[1,]
+##popula = popula[-1,]
+
+#Make table with sightings with populations from 2021
+##colnames(popula)[1]="country"
+##colnames(popula)[5]="population"
+##all(ufogdp$country %in% popula$country)
+##pop21sight = inner_join(popula, ufogdp,
+                        ##by = c("country"))
+##pop21sight = subset(pop21sight, select = c(country, population, year, sightings, gdpcapita))
+
+
+
+#Linear model on sightings by population
+##popsightmodel <- lm(sightings ~ population, data = pop21sight)
+##summary(popsightmodel)
+##sightpopplot<- ggplot(pop21sight, aes(population, sightings)) +geom_point() +geom_smooth(method = 'lm')
+
+##grid.arrange(sightpopplot)
+
+#figure out how to make population go from 0 to max value
+
+#remove values with sightings greater than 500
+##pop21sight=pop21sight[pop21sight$sightings<500,]
+
+#Linear model on sightings by population sightings less than 500
+##popsightmodel <- lm(sightings ~ population, data = pop21sight)
+##summary(popsightmodel)
+##sightpopplot<- ggplot(pop21sight, aes(population, sightings)) +geom_point() +geom_smooth(method = 'lm')
+
+##grid.arrange(sightpopplot)
+
+#Bar Chart check
+##ggplot(pop21sight, aes(population, sightings))+geom_col()
+
+#Histogram check
+##hist(pop21sight$sightings)
+#frequency is number of countries
+
+#barplot check
+##barplot(pop21sight$sightings)
