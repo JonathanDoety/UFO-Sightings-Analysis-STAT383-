@@ -29,15 +29,15 @@ sightingsModel<- lm(sightings ~ gdpcapita, data = ufogdp)
 summary(sightingsModel)
 ufoplot<- ggplot(ufogdp, aes(gdpcapita, sightings)) +geom_point() +
   geom_smooth(method = 'lm') + labs(title="UFO Sighitings by GDP Per Capita",
-                                  x ="GDP Per Capita ($)", y = "UFO Sightings")
+                                    x ="GDP Per Capita ($)", y = "UFO Sightings")
 
 #This is messy, US is a huge outlier so I will remove that data point
 ufonoUS<- ufogdp |> filter(country != "United States")
 sightingsModelNoUS<- lm(sightings ~ gdpcapita, data = ufonoUS)
 summary(sightingsModelNoUS)
 noUSPlot<- ggplot(ufonoUS, aes(gdpcapita, sightings)) +geom_point() +
-geom_smooth(method = 'lm')+ labs(title="UFO Sighitings by GDP Per Capita (No U.S.)",
-                                  x ="GDP Per Capita ($)", y = "UFO Sightings")
+  geom_smooth(method = 'lm')+ labs(title="UFO Sighitings by GDP Per Capita (No U.S.)",
+                                   x ="GDP Per Capita ($)", y = "UFO Sightings")
 
 #Look at both models at the same time:
 require(gridExtra)
@@ -59,7 +59,7 @@ summary(sightingsModel_less500)
 #Plot for countries with less than 500 sightings
 ufo_less500plot<- ggplot(ufogdp_less500, aes(gdpcapita, sightings)) +geom_point() +geom_smooth(method = 'lm')+
   labs(title="UFO Sighitings by GDP Per Capita (Sightings <500)",
-         x ="GDP Per Capita ($)", y = "UFO Sightings")
+       x ="GDP Per Capita ($)", y = "UFO Sightings")
 grid.arrange(ufo_less500plot)
 
 
@@ -99,3 +99,51 @@ hist_less500
 hist_less150
 
 
+#Not working effectively right now
+
+#Population Experimentation
+
+
+#Cleaning population dataset
+##popula = read_csv(here("rawdata","international-db-pop-2021-uscensus.csv")) 
+##names(popula) = popula[1,]
+##popula = popula[-1,]
+
+#Make table with sightings with populations from 2021
+##colnames(popula)[1]="country"
+##colnames(popula)[5]="population"
+##all(ufogdp$country %in% popula$country)
+##pop21sight = inner_join(popula, ufogdp,
+##by = c("country"))
+##pop21sight = subset(pop21sight, select = c(country, population, year, sightings, gdpcapita))
+
+
+
+#Linear model on sightings by population
+##popsightmodel <- lm(sightings ~ population, data = pop21sight)
+##summary(popsightmodel)
+##sightpopplot<- ggplot(pop21sight, aes(population, sightings)) +geom_point() +geom_smooth(method = 'lm')
+
+##grid.arrange(sightpopplot)
+
+#figure out how to make population go from 0 to max value
+
+#remove values with sightings greater than 500
+##pop21sight=pop21sight[pop21sight$sightings<500,]
+
+#Linear model on sightings by population sightings less than 500
+##popsightmodel <- lm(sightings ~ population, data = pop21sight)
+##summary(popsightmodel)
+##sightpopplot<- ggplot(pop21sight, aes(population, sightings)) +geom_point() +geom_smooth(method = 'lm')
+
+##grid.arrange(sightpopplot)
+
+#Bar Chart check
+##ggplot(pop21sight, aes(population, sightings))+geom_col()
+
+#Histogram check
+##hist(pop21sight$sightings)
+#frequency is number of countries
+
+#barplot check
+##barplot(pop21sight$sightings)
